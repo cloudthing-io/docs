@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-CloudThing Application APIs
+Application APIs
 ======================================
 
 The family of Application APIs have been designed for integrating 3rd party services, creating custom applications and managing your data and devices.

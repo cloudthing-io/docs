@@ -30,7 +30,7 @@ Every response (collection or object) is identified by its URL in *"href"* field
 
 In short words:
 
-Just hit /api/v1/ and start exploring!
+Just hit /api/v1/tenants/current and start exploring!
 
 **Host**
 
@@ -47,4 +47,100 @@ CloudThing API supports Basic and Bearer (JWT) authentication. Basic auth needs:
 - Password: {apiSecret} or {userPassword}.
 
 To obtain JWT token one should send POST request to */api/v1/auth/token* endpoint with Basic auth.
+
+Tenant
+--------------------------------
+
+Tenant is an organization on behalf of which user or API key requests data. When registering an account at CloudThing.io the organization and user within it are created.
+
+/tenants/{id}
+############################
+
+**GET**
+
+Reads details of user's organization:
+
+.. code-block:: bash
+
+	curl -u "user@example.com:password" \
+	https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT
+
+Response::
+
+	{
+	  "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT",
+	  "name": "user@example.com's organization",
+	  "shortName": "vanilla-ice",
+	  "createdAt": "2016-05-15T11:18:33Z",
+	  "updatedAt": "2016-05-15T11:18:33Z",
+	  "directories": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/directories"
+	  },
+	  "applications": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/applications"
+	  },
+	  "products": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/products"
+	  },
+	  "custom": {
+
+	  }
+	}
+
+**POST**
+
+Updates details of user's organization:
+
+.. code-block:: bash
+
+	curl -u "user@example.com:password" \
+	-H "Content-Type: application/json" -X POST \
+	https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT \
+	-d '{"name": "Example, Inc"}'
+
+Response::
+
+	{
+	  "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT",
+	  "name": "Example, Inc",
+	  "shortName": "vanilla-ice",
+	  "createdAt": "2016-05-15T11:18:33Z",
+	  "updatedAt": "2016-05-22T14:12:02Z",
+	  "directories": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/directories"
+	  },
+	  "applications": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/applications"
+	  },
+	  "products": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/products"
+	  },
+	  "custom": {
+
+	  }
+	}
+
+/tenants/current
+############################
+
+**GET**
+
+Retrieves link to current tenant:
+
+.. code-block:: bash
+
+	curl -u "user@example.com:password" \
+	https://vanilla-ice.cloudthing.io/api/v1/tenants/current
+
+Response::
+
+	HTTP/1.1 302 Found
+	Content-Type: application/json
+	Location: https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT
+
+	{
+		"tenant": {
+			"href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+		}
+	}
 

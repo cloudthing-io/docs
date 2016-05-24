@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-CloudThing Connectors APIs
+Connectors APIs
 ======================================
 
 Connectors are connectivity layer of CloudThing software stack and consist of APIs for Open Source IoT protocols, networking stacks (Sigfox, LoRaWAN) and others. It is possible to develop custom connector if required (ask us about it: hello@cloudthing.io).
