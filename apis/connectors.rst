@@ -172,7 +172,9 @@ HTTP connector allows devices to use unencrypted or encrypted (TLS) version of p
 
 The HTTP server listens on port 81 and HTTPS on port 444 of tenant's virtual host.
 
-**Authentication** The connector supports Basic authentication with:
+**Authentication**
+
+The connector supports Basic authentication with:
 
 - Username: {deviceId},
 - Password: {deviceToken}
@@ -209,3 +211,24 @@ Example subscribtion for commands::
 	-u "SoMEc0MpL1Cat3D1D:3xAmpLeT0K3n" \
 	-X GET https://short-name.cloudthing.io:444/v1/SoMEc0MpL1Cat3D1D/commands?stream=10000
 
+
+CoAP API
+----------------------------------------
+
+CoAP connector and API will be released soon. Note, that it will be **recommended way of connecting constrained devices**.
+
+
+Sigfox
+----------------------------------------
+
+CloudThing is integrated with Sigfox backend and it is possible to gather all data from Sigfox deployment in our cloud. The connector will be enabled in Week 22.
+
+The Things Network
+----------------------------------------
+
+CloudThing is integrated with TTN network and it is possible to create devices and connect them via OTAA to cloud. The connector will be enabled in Week 22.
+
+LoRaWAN networks
+----------------------------------------
+
+It is possible to connect to commercial LoRaWAN network or deploy private one with our software stack. Ask us about it hello@cloudthing.io.
