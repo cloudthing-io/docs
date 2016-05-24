@@ -149,3 +149,40 @@ Device
 --------------------------------
 
 Device's data (resources) can be retrieved by hitting /api/v1/devices/{id}/resources{data,events,commands}/{key} (eg. */api/v1/devices/s0m31D/resources/data/temp*).
+
+User
+--------------------------------
+
+Password can be changed by making POST request to user endpoint. To obtain user ID, hit /api/v1/users/current. Example:
+
+**GET**
+
+Retrieves link to current user:
+
+.. code-block:: bash
+
+	curl -u "user@example.com:password" \
+	https://vanilla-ice.cloudthing.io/api/v1/users/current
+
+Response::
+
+	HTTP/1.1 302 Found
+	Content-Type: application/json
+	Location: https://vanilla-ice.cloudthing.io/api/v1/users/Som31D0fuZ3R
+
+	{
+		"user": {
+			"href": "https://vanilla-ice.cloudthing.io/api/v1/users/Som31D0fuZ3R"
+		}
+	}
+
+**POST**
+
+Change password:
+
+.. code-block:: bash
+
+	curl -u "user@example.com:password" \
+	-H "Content-Type: application/json" \
+	-d '{"password": "newpass"}' \
+	https://vanilla-ice.cloudthing.io/api/v1/users/Som31D0fuZ3R
