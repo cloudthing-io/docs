@@ -144,3 +144,8 @@ Response::
 		}
 	}
 
+
+Device
+--------------------------------
+
+Device's data (resources) can be retrieved by hitting /api/v1/devices/{id}/resources{data,events,commands}/{key} (eg. */api/v1/devices/s0m31D/resources/data/temp*).
