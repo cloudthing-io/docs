@@ -221,7 +221,13 @@ CoAP connector and API will be released soon. Note, that it will be **recommende
 Sigfox
 ----------------------------------------
 
-CloudThing is integrated with Sigfox backend and it is possible to gather all data from Sigfox deployment in our cloud. The connector will be enabled in Week 22.
+CloudThing is integrated with Sigfox backend and it is possible to gather all data from Sigfox deployment in our cloud. To start using it, you need to enable Sigfox connector and choose parsing JavaScript function in Control Center application. Then, you need to configure your Sigfox backend with HTTP POST callback as follows::
+
+	http://short-name.cloudthing.io:82/sigfox/{{productId}}?id={device}&data={data}
+
+Example::
+
+	http://vanilla-ice.cloudthing.io:82/sigfox/SoMEc0MpL1Cat3D1D?id={device}&data={data}
 
 The Things Network
 ----------------------------------------
