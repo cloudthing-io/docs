@@ -155,16 +155,9 @@ Tenant is an organization on behalf of which user or API key requests data. When
     - A link to a Collection of all the :ref:`Statstics <ref-statistic>` available for this Tenant.
 
 
-**GET**
+**Tenant Example**
 
-Reads details of user's organization:
-
-.. code-block:: bash
-
-	curl -u "user@example.com:password" \
-	https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT
-
-Response::
+.. code-block:: json
 
 	{
 	  "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT",
@@ -172,6 +165,20 @@ Response::
 	  "shortName": "vanilla-ice",
 	  "createdAt": "2016-05-15T11:18:33Z",
 	  "updatedAt": "2016-05-15T11:18:33Z",
+	  "limits": {
+	  	"tokens": {
+	  		"total": 5,
+	  		"used": 1
+	  	},
+	  	"sms": {
+	  		"total": 5,
+	  		"used": 0
+	  	},
+	  	"emails": {
+	  		"total": 5,
+	  		"used": 0
+	  	}
+	  },
 	  "directories": {
 	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/directories"
 	  },
@@ -181,55 +188,52 @@ Response::
 	  "products": {
 	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/products"
 	  },
-	  "custom": {
-
-	  }
-	}
-
-**POST**
-
-Updates details of user's organization:
-
-.. code-block:: bash
-
-	curl -u "user@example.com:password" \
-	-H "Content-Type: application/json" -X POST \
-	https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT \
-	-d '{"name": "Example, Inc"}'
-
-Response::
-
-	{
-	  "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT",
-	  "name": "Example, Inc",
-	  "shortName": "vanilla-ice",
-	  "createdAt": "2016-05-15T11:18:33Z",
-	  "updatedAt": "2016-05-22T14:12:02Z",
-	  "directories": {
-	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/directories"
+	  "devices": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/devices"
 	  },
-	  "applications": {
-	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/applications"
+	  "analytics": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/analytics"
 	  },
-	  "products": {
-	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/products"
+	  "users": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/users"
 	  },
 	  "custom": {
 
 	  }
 	}
 
-/tenants/current
-############################
+Tenant Operations
+-----------------
 
-**GET**
+Retrieve A Tenant
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - GET /tenants/current
+    - N/A
+    - Retrieves the Tenant associated with the current API key. The response will be a ``302 Redirect``. You will find the location of the Tenant in a Location header and response body, although most REST libraries and web browsers will automatically issue a request for it.
+
+  * - GET /tenants/{tenantId}
+    - N/A
+    - Retrieves the Tenant with the specified ID.
+
+Example Query
+"""""""""""""
 
 Retrieves link to current tenant:
 
 .. code-block:: bash
 
 	curl -u "user@example.com:password" \
-	https://vanilla-ice.cloudthing.io/api/v1/tenants/current
+	"https://vanilla-ice.cloudthing.io/api/v1/tenants/current" \
+	-H 'Accept: application/json'
 
 Response::
 
@@ -243,14 +247,48 @@ Response::
 		}
 	}
 
+Retrieves tenant:
+.. code-block:: bash
+curl -u "user@example.com:password" \
+"https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT" \
+-H 'Accept: application/json'
+
+Using A Tenant for Look-Up
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to retrieve other independent resources using the Tenant for look-up.
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - GET /tenants/{tenantId}/{resourceName}
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a collection of all of a Tenant's associated resources of the specified type. Possible resource types are: ``directories``, ``applications``, ``products``, ``devices``, ``analytics``, ``users``, and ``statistics``.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving a Collection Associated with a Tenant**
+
+.. code-block:: bash
+curl -u "user@example.com:password" \
+"https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/products" \
+-H 'Accept: application/json'
+
+This query would retrieve a collection containing all the Products associated with the specified Tenant.
 
 Device
---------------------------------
+=============
 
 Device's data (resources) can be retrieved by hitting /api/v1/devices/{id}/resources{data,events,commands}/{key} (eg. */api/v1/devices/s0m31D/resources/data/temp*).
 
 User
---------------------------------
+================
 
 Password can be changed by making POST request to user endpoint. To obtain user ID, hit /api/v1/users/current. Example:
 
