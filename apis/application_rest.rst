@@ -1080,6 +1080,174 @@ Example Query
   "https://vanilla-ice.cloudthing.io/api/v1/memberships/Som31D0fMeM83rSh1P" \
   -H 'Accept: application/json'
 
+API Key
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+API keys are used for authorization during CloudThing API operations.
+
+**API Key URL**
+
+``/apikeys/{apikeyId}``
+
+**API Key Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``name``
+    - String
+    - 1 < N < 256 characters
+    - Name of API key.
+
+  * - ``key``
+    - String
+    - 25 characters
+    - API key.
+
+  * - ``secret``
+    - String
+    - 32 characters
+    - API secret. May be obtained only once in response for API key create request.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``status``
+    - string (enum)
+    - ``ENABLED``, ``DISABLED``
+    - Presents status of API key.
+
+  * - ``description``
+    - String
+    - N/A
+    - The description of API key which may describes it's purpose.
+
+  * - ``custom``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to a :ref:`Tenant <ref-tenant>` owning this API key.
+
+**API key Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/apikeys/AP1k3y1D3XamP13",
+    "name": "CRM key",
+    "key": "cJyGHVM1yIKoGQZowZXQz934e",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "status": "ENABLED",
+    "description": "This API key is used in our custom CRM integration",
+    "custom": {
+
+    },
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    }
+  }
+
+API key Operations
+-----------------
+
+Create An API key
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /tenants/{tenantId}/apikeys``
+    - Optional: ``name``, ``description``, ``custom``, ``status``.
+    - Creates new API key.
+
+Retrieve An API key
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /apikeys/{apikeyId}``
+    - ``expand``
+    - Retrieves the API key with the specified ID. Expandable links: ``tenant``.
+
+Update An API key
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /apikeys/{apikeyId}``
+    - ``name``, ``description``, ``custom``, ``status``
+    - Updates the API key with the specified ID.
+
+Delete An API key
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /apikeys/{apikeyId}``
+    - N/A
+    - Deletes the API key with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/apikeys/AP1k3y1D3XamP13" \
+  -H 'Accept: application/json'
+
 Application
 ============
 
