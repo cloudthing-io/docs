@@ -496,6 +496,260 @@ Example Queries
 
 This query would retrieve a collection containing all the Users associated with the specified Directory.
 
+Application
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Application is a resource representing real-world application or integration with it's own resources and limited access to tenants' data. You can attach a Directory of Users to Application and use it to limit scope of operations for them.
+
+**Application URL**
+
+``/applications/{applicationId}``
+
+**Application Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``name``
+    - String
+    - 1 < N < 256 characters
+    - Name of Application.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``official``
+    - Boolean
+    - N/A
+    - Indicates whether it's the official Application or not. Visible only for Api Key or offical User.
+
+  * - ``status``
+    - String (enum)
+    - ``ENABLED``, ``DISABLED``
+    - Indicates whether Application is enabled or not. Visible only for Api Key or offical User.
+
+  * - ``description``
+    - String
+    - N/A
+    - The description of Application which may describes it's purpose.
+
+  * - ``custom``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to a :ref:`Tenant <ref-tenant>` owning this Product.
+
+  * - ``directory``
+    - Link
+    - N/A
+    - A link to a :ref:`Directory <ref-directory>` attached to this Application if exists.
+
+  * - ``devices``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Devices <ref-device>` available in this Application (if requester is Api Key or offical User) or assigned to current User (if requester is User).
+
+  * - ``clusters``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Clusters <ref-cluster>` created in this Application (if requester is Api Key or official User) or owned by current User (if requester is User).
+
+  * - ``exports``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Exports <ref-export>` created for this Application. Visible only for Api Key or offical User.
+
+**Application Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA",
+    "name": "Smart home application",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "official": false,
+    "status": "ENABLED",
+    "description": "This application is our Smart Home app for end-users",
+    "custom": {
+
+    },
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    },
+    "directory": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/directories/Som31D0fD1r3cTo"
+    },
+    "devices": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA/devices"
+    },
+    "clusters": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA/clusters"
+    },
+    "exports": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA/exports"
+    }
+  }
+
+Application Operations
+-----------------
+
+Create An Application
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /tenants/{tenantId}/applications``
+    - Required: ``name``. Optional: ``description``, ``custom``, ``status``, ``directory``.
+    - Creates new application.
+
+Retrieve An Application
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /applications/{applicationId}``
+    - ``expand``
+    - Retrieves the Application with the specified ID. Expandable links: ``devices``, ``clusters``, ``exports``, ``tenant``, ``directory``.
+
+Update An Application
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /applications/{applicationId}``
+    - ``name``, ``description``, ``custom``, ``status``, ``directory``
+    - Updates the Application with the specified ID.
+
+Delete An Application
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /applications/{applicationId}``
+    - N/A
+    - Deletes the Application with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA" \
+  -H 'Accept: application/json'
+
+Using An Application for Look-Up
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to retrieve other independent resources using the Application for look-up.
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /applications/{applicationId}/{resourceName}``
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a collection of all of an Application's associated resources of the specified type. Possible resource types are: ``devices``, ``clusters`` and ``exports``.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving a Collection Associated with an Application**
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA/clusters" \
+  -H 'Accept: application/json'
+
+This query would retrieve a collection containing all the Clusters associated with the specified Application.
+
+Associated subresources of Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to retrieve subresources of Application
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /applications/{applicationId}/availableResources``
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a set of available in Application resources belonged to Application, Products, Clusters and Groups.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving an available resources in Application**
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA/resources" \
+  -H 'Accept: application/json'
+
+
 Product
 ============
 
