@@ -410,7 +410,7 @@ Product is a model of your real-world product. You can create particular devices
             },
             {
               "name": "off",
-              "value": OFF
+              "value": "OFF"
             }
           ]
         }
@@ -454,11 +454,11 @@ Create A Product
   :header-rows: 1
 
   * - Operation
-    - Optional Query Parameters
+    - Attributes
     - Description
 
-  * - ``POST /products``
-    - N/A
+  * - ``POST /tenants/{tenantId}/products``
+    - Required: ``name``. Optional: ``properties``, ``resources``, ``custom``, ```extensions``.
     - Creates new product.
 
 Retrieve A Product
@@ -473,8 +473,8 @@ Retrieve A Product
     - Description
 
   * - ``GET /products/{productId}``
-    - N/A
-    - Retrieves the Product with the specified ID.
+    - ``expand``
+    - Retrieves the Product with the specified ID. Expandable links: ``devices``, ``functions``, ``tenant``.
 
 Update A Product
 ^^^^^^^^^^^^^^^^^^
@@ -484,11 +484,11 @@ Update A Product
   :header-rows: 1
 
   * - Operation
-    - Optional Query Parameters
+    - Attributes
     - Description
 
   * - ``POST /products/{productId}``
-    - N/A
+    - ``name``, ``properties``, ``resources``, ``custom``, ```extensions``
     - Updates the Product with the specified ID.
 
 Delete A Product
@@ -544,6 +544,9 @@ Example Queries
 	-H 'Accept: application/json'
 
 This query would retrieve a collection containing all the Devices associated with the specified Product.
+
+Device
+==================
 
 Device's data (resources) can be retrieved by hitting /api/v1/devices/{id}/resources{data,events,commands}/{key} (eg. */api/v1/devices/s0m31D/resources/data/temp*).
 
