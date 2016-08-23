@@ -370,81 +370,96 @@ Product is a model of your real-world product. You can create particular devices
 
 .. code-block:: json
 
-	{
-	  "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT",
-	  "name": "Smart washing machine",
-	  "createdAt": "2016-05-15T11:18:33Z",
-	  "updatedAt": "2016-05-15T11:18:33Z",
-	  "properties": [
-	  	{
-	  		"key": "macaddr",
-	  		"name": "MAC address",
-	  		"setOn": "MANUFACTURING",
-	  		"unique": true
-	  	}
-	  ],
-	  "resources": {
-	  	"data": [
-		  	{
-		  		"id": "rpm",
-		  		"name": "Revolutions per minute",
-		  		"description": "Reports current RPM"
-		  	}
-	  	],
-	  	"events": [
-	  		{
-	  			"id": "dmg",
-	  			"name": "Machine damage",
-	  			"description": "Fired if machine damage occurred"
-	  		}
-	  	],
-	  	"commands": [
-	  		{
-	  			"id": "turn",
-	  			"name": "Turn washing",
-	  			"description": "Turns machine on/off",
-	  			"payloads": [
-	  				{
-	  					"name": "on",
-	  					"value": "ON"
-	  				},
-	  				{
-	  					"name": "off",
-	  					"value": OFF
-	  				}
-	  			]
-	  		}
-	  	]
-	  },
-      "extensions": {
-		"connectors": {
-		  "sigfox": {
-		    "autoGenerate": true,
-		    "contentType": "CUSTOM",
-		    "name": "Sigfox connector",
-		    "parser": {
-		      "href": "https://vanilla-ice.cloudthing/api/v1/functions/SgKSGoEETgSQ0dpNgdA5Qg"
-		    },
-		    "status": "ENABLED"
-		  }
-		}
-      },
-      "custom": {
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT",
+    "name": "Smart washing machine",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "properties": [
+      {
+        "key": "macaddr",
+        "name": "MAC address",
+        "setOn": "MANUFACTURING",
+        "unique": true
+      }
+    ],
+    "resources": {
+      "data": [
+        {
+          "id": "rpm",
+          "name": "Revolutions per minute",
+          "description": "Reports current RPM"
+        }
+      ],
+      "events": [
+        {
+          "id": "dmg",
+          "name": "Machine damage",
+          "description": "Fired if machine damage occurred"
+        }
+      ],
+      "commands": [
+        {
+          "id": "turn",
+          "name": "Turn washing",
+          "description": "Turns machine on/off",
+          "payloads": [
+            {
+              "name": "on",
+              "value": "ON"
+            },
+            {
+              "name": "off",
+              "value": OFF
+            }
+          ]
+        }
+      ]
+    },
+    "extensions": {
+      "connectors": {
+        "sigfox": {
+          "autoGenerate": true,
+          "contentType": "CUSTOM",
+          "name": "Sigfox connector",
+          "parser": {
+            "href": "https://vanilla-ice.cloudthing/api/v1/functions/SgKSGoEETgSQ0dpNgdA5Qg"
+          },
+          "status": "ENABLED"
+        }
+      }
+    },
+    "custom": {
 
-      },
-	  "tenant": {
-	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
-	  },
-	  "devices": {
-	    "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT/devices"
-	  },
-	  "functions": {
-	    "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT/functions"
-	  }
-	}
+    },
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    },
+    "devices": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT/devices"
+    },
+    "functions": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT/functions"
+    }
+  }
 
 Product Operations
 -----------------
+
+Create A Product
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``POST /products``
+    - N/A
+    - Creates new product.
 
 Retrieve A Product
 ^^^^^^^^^^^^^^^^^^
@@ -460,6 +475,36 @@ Retrieve A Product
   * - ``GET /products/{productId}``
     - N/A
     - Retrieves the Product with the specified ID.
+
+Update A Product
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``POST /products/{productId}``
+    - N/A
+    - Updates the Product with the specified ID.
+
+Delete A Product
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /products/{productId}``
+    - N/A
+    - Deletes the Product with the specified ID.
 
 Example Query
 """""""""""""
