@@ -1010,9 +1010,202 @@ Example Queries
 This query would retrieve a collection containing all the Devices associated with the specified Product.
 
 Device
-==================
+============
 
-Device's data (resources) can be retrieved by hitting /api/v1/devices/{id}/resources{data,events,commands}/{key} (eg. */api/v1/devices/s0m31D/resources/data/temp*).
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Device is a single real-world node or other data source implementing Product model.
+
+**Device URL**
+
+``/devices/{deviceId}``
+
+**Device Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``token``
+    - String
+    - 32 characters
+    - Device's token. 
+
+  * - ``activated``
+    - Boolean
+    - N/A
+    - Indicates whether device has been activated (by connecting with CloudThing platform).
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``properties``
+    - Object
+    - N/A
+    - Object with properties where key is a defined in Product property id.
+
+  * - ``custom``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to a :ref:`Tenant <ref-tenant>` owning this Product.
+
+  * - ``product``
+    - Link
+    - N/A
+    - A link to a :ref:`Product <ref-product>` this Device implements.
+
+**Device Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/devices/Som31D0fd3V1c3",
+    "token": "STTPDGtpSNkGpHdasG1BznI0u7w9pK4p",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "activated": true,
+    "custom": {
+
+    },
+    "properties": {
+      "macaddr": "00:11:22:33:44:55"
+    },
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    },
+    "product": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT"
+    }
+  }
+
+Device Operations
+-----------------
+
+Create A Device
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /products/{productId}/devices``
+    - Optional: ``properties``, ``custom``.
+    - Creates new device.
+
+Retrieve A Device
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /devices/{deviceId}``
+    - ``expand``
+    - Retrieves the Device with the specified ID. Expandable links: ``tenant``, ``product``.
+
+Update A Device
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /devices/{deviceId}``
+    - ``properties``, ``custom``
+    - Updates the Device with the specified ID.
+
+Delete A Device
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /devices/{deviceId}``
+    - N/A
+    - Deletes the Device with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/devices/Som31D0fd3V1c3" \
+  -H 'Accept: application/json'
+
+Associated endpoints
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to use associated endpoint for retrieving additional data.
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /devices/{deviceId}/resources/{type}/{name}``
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a associated resource of the specified type. Possible resource types are: ``data``, ``events`` and ``commands``.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving a temperature measured by Device**
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/devices/Som31D0fd3V1c3/resources/data/temp" \
+  -H 'Accept: application/json'
+
+This query would retrieve a collection containing lat measurments of ``temp`` resource by Device.
+
 
 User
 ================
