@@ -51,8 +51,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'CloudThing'
-copyright = u'2016, Hadron IT Sp. z o.o.'
-author = u'Hadron IT Sp. z o.o.'
+copyright = u'2016, Husar Labs Sp. z o.o.'
+author = u'Husar Labs Sp. z o.o.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

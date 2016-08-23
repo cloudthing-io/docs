@@ -285,6 +285,217 @@ Example Queries
 
 This query would retrieve a collection containing all the Products associated with the specified Tenant.
 
+Directory
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Directory is a container for User and Usergroup resources. Every user is unique by email within Directory only. You can attach Directory to Application for storing end-users accounts. Your accounts for managing CloudThing are also stored in offcial Directory which cannot be deleted.
+
+**Directory URL**
+
+``/directories/{directoryId}``
+
+**Directory Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``name``
+    - String
+    - 1 < N < 256 characters
+    - Name of Directory.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``official``
+    - Boolean
+    - N/A
+    - Indicates whether it;s the official Directory or not.
+
+  * - ``description``
+    - String
+    - N/A
+    - The description of Directory which may describes it's purpose.
+
+  * - ``custom``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to a :ref:`Tenant <ref-tenant>` owning this Product.
+
+  * - ``users``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Users <ref-user>` stored in this Directory.
+
+  * - ``usergroups``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Usergroups <ref-usergroup>` stored in this Directory.
+
+  * - ``applications``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Applications <ref-application>` mapped to this Directory.
+
+**Directory Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/directories/Som31D0fD1r3cTo",
+    "name": "Smart application directory",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "official": false,
+    "description": "This directory is used for end-users of our Smart Home application",
+    "custom": {
+
+    },
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    },
+    "users": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/directories/Som31D0fD1r3cTo/users"
+    },
+    "usergroups": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/directories/Som31D0fD1r3cTo/usergroups"
+    },
+    "applications": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/directories/Som31D0fD1r3cTo/applications"
+    }
+  }
+
+Directory Operations
+-----------------
+
+Create A Directory
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /tenants/{tenantId}/directories``
+    - Required: ``name``. Optional: ``description``, ``custom``.
+    - Creates new directory.
+
+Retrieve A Directory
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /directories/{directoryId}``
+    - ``expand``
+    - Retrieves the Directory with the specified ID. Expandable links: ``users``, ``usergroups``, ``applications``, ``tenant``.
+
+Update A Directory
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /directories/{directoryId}``
+    - ``name``, ``description``, ``custom``
+    - Updates the Directory with the specified ID.
+
+Delete A Directory
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /directories/{directoryId}``
+    - N/A
+    - Deletes the Directory with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/directories/Som31D0fD1r3cTo" \
+  -H 'Accept: application/json'
+
+Using A Directory for Look-Up
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to retrieve other independent resources using the Directory for look-up.
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /directories/{directoryId}/{resourceName}``
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a collection of all of a Directory's associated resources of the specified type. Possible resource types are: ``users``, ``usergroups`` and ``applications``.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving a Collection Associated with a Directory**
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/directories/Som31D0fD1r3cTo/users" \
+  -H 'Accept: application/json'
+
+This query would retrieve a collection containing all the Users associated with the specified Directory.
+
 Product
 ============
 
@@ -421,9 +632,8 @@ Product is a model of your real-world product. You can create particular devices
         "sigfox": {
           "autoGenerate": true,
           "contentType": "CUSTOM",
-          "name": "Sigfox connector",
           "parser": {
-            "href": "https://vanilla-ice.cloudthing/api/v1/functions/SgKSGoEETgSQ0dpNgdA5Qg"
+            "href": "https://vanilla-ice.cloudthing.io/api/v1/functions/SgKSGoEETgSQ0dpNgdA5Qg"
           },
           "status": "ENABLED"
         }
@@ -458,7 +668,7 @@ Create A Product
     - Description
 
   * - ``POST /tenants/{tenantId}/products``
-    - Required: ``name``. Optional: ``properties``, ``resources``, ``custom``, ```extensions``.
+    - Required: ``name``. Optional: ``properties``, ``resources``, ``custom``, ``extensions``.
     - Creates new product.
 
 Retrieve A Product
