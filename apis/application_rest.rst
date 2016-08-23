@@ -251,9 +251,9 @@ Retrieves tenant:
 
 .. code-block:: bash
 
-curl -u "user@example.com:password" \
-"https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT" \
--H 'Accept: application/json'
+	curl -u "user@example.com:password" \
+	"https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT" \
+	-H 'Accept: application/json'
 
 Using A Tenant for Look-Up
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
