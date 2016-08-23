@@ -855,6 +855,10 @@ Retrieve A User
     - Optional Query Parameters
     - Description
 
+  * - ``GET /users/current``
+    - N/A
+    - Retrieves the User associated with the current authorization data. The response will be a ``302 Redirect``. You will find the location of the User in a Location header and response body, although most REST libraries and web browsers will automatically issue a request for it.
+
   * - ``GET /users/{userId}``
     - ``expand``
     - Retrieves the Usergroup with the specified ID. Expandable links: ``applications``, ``usergroups``, ``memberships``, ``devices``, ``directory``, ``tenant``.
@@ -892,6 +896,26 @@ Delete A User
 Example Query
 """""""""""""
 
+Retrieves link to current User:
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/users/current" \
+  -H 'Accept: application/json'
+
+Response::
+
+  HTTP/1.1 302 Found
+  Content-Type: application/json
+  Location: https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f
+
+  {
+    "user": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f"
+    }
+  }
+
 .. code-block:: bash
 
   curl -u "user@example.com:password" \
@@ -928,6 +952,133 @@ Example Queries
 
 This query would retrieve a collection containing all the Applications associated with the specified User.
 
+Membership
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Membership represents assignment of User to Usergroup.
+
+**Membership URL**
+
+``/memberships/{membershipId}``
+
+**Membership Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``user``
+    - Link
+    - N/A
+    - A link to the :ref:`User <ref-user>` this Membership is about.
+
+  * - ``usergroup``
+    - Link
+    - N/A
+    - A link to the :ref:`Usergroup <ref-usergroup>` this Membership is about.
+
+**Membership Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/memberships/Som31D0fMeM83rSh1P",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "user": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f"
+    },
+    "usergroup": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/usergroups/Som31D0fOoZ3rGru"
+    }
+  }
+
+Membership Operations
+-----------------
+
+Create A Membership
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /usergroups/{usergroupId}/memberships``
+    - Required: ``user``.
+    - Assigns given user to usergroup.
+
+  * - ``POST /users/{userId}/memberships``
+    - Required: ``usergroup``.
+    - Assigns user to given usergroup.
+
+Retrieve A Membership
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /memberships/{membershipId}``
+    - ``expand``
+    - Retrieves the Membership with the specified ID. Expandable links: ``user``, ``usergroup``.
+
+Delete A Membership
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /memberships/{membershipId}``
+    - N/A
+    - Deletes the Membership with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/memberships/Som31D0fMeM83rSh1P" \
+  -H 'Accept: application/json'
 
 Application
 ============
