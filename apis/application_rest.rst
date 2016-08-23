@@ -268,7 +268,7 @@ It is possible to retrieve other independent resources using the Tenant for look
     - Optional Query Parameters
     - Description
 
-  * - GET /tenants/{tenantId}/{resourceName}
+  * - ``GET /tenants/{tenantId}/{resourceName}``
     - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
     - Retrieves a collection of all of a Tenant's associated resources of the specified type. Possible resource types are: ``directories``, ``applications``, ``products``, ``devices``, ``analytics``, ``users``, and ``statistics``.
 
@@ -278,14 +278,227 @@ Example Queries
 **Retrieving a Collection Associated with a Tenant**
 
 .. code-block:: bash
-curl -u "user@example.com:password" \
-"https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/products" \
--H 'Accept: application/json'
+
+	curl -u "user@example.com:password" \
+	"https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/products" \
+	-H 'Accept: application/json'
 
 This query would retrieve a collection containing all the Products associated with the specified Tenant.
 
-Device
-=============
+Product
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Product is a model of your real-world product. You can create particular devices within it.
+
+**Product URL**
+
+``/products/{productId}``
+
+**Product Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``name``
+    - String
+    - 1 < N < 256 characters
+    - Name of Product.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``properties``
+    - Array(Object)
+    - N/A
+    - List of objects, each containing: ``key``, ``name``, ``setOn`` and `unique`.
+
+  * - ``resources``
+    - Object
+    - N/A
+    - An embedded object containing information about resources, containd ``data``, ``events`` and ``commands`` arrays.
+
+  * - ``extensions``
+    - Object
+    - N/A
+    - An embedded object containing information available extensions and their configuration.
+
+  * - ``custom``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to a :ref:`Tenant <ref-tenant>` owning this Product.
+
+  * - ``devices``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Devices <ref-device>` mapped to this Product.
+
+  * - ``functions``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Functions <ref-function>` mapped to this Product.
+
+**Product Example**
+
+.. code-block:: json
+
+	{
+	  "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT",
+	  "name": "Smart washing machine",
+	  "createdAt": "2016-05-15T11:18:33Z",
+	  "updatedAt": "2016-05-15T11:18:33Z",
+	  "properties": [
+	  	{
+	  		"key": "macaddr",
+	  		"name": "MAC address",
+	  		"setOn": "MANUFACTURING",
+	  		"unique": true
+	  	}
+	  ],
+	  "resources": {
+	  	"data": [
+		  	{
+		  		"id": "rpm",
+		  		"name": "Revolutions per minute",
+		  		"description": "Reports current RPM"
+		  	}
+	  	],
+	  	"events": [
+	  		{
+	  			"id": "dmg",
+	  			"name": "Machine damage",
+	  			"description": "Fired if machine damage occurred"
+	  		}
+	  	],
+	  	"commands": [
+	  		{
+	  			"id": "turn",
+	  			"name": "Turn washing",
+	  			"description": "Turns machine on/off",
+	  			"payloads": [
+	  				{
+	  					"name": "on",
+	  					"value": "ON"
+	  				},
+	  				{
+	  					"name": "off",
+	  					"value": OFF
+	  				}
+	  			]
+	  		}
+	  	]
+	  },
+      "extensions": {
+		"connectors": {
+		  "sigfox": {
+		    "autoGenerate": true,
+		    "contentType": "CUSTOM",
+		    "name": "Sigfox connector",
+		    "parser": {
+		      "href": "https://vanilla-ice.cloudthing/api/v1/functions/SgKSGoEETgSQ0dpNgdA5Qg"
+		    },
+		    "status": "ENABLED"
+		  }
+		}
+      },
+      "custom": {
+
+      },
+	  "tenant": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+	  },
+	  "devices": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT/devices"
+	  },
+	  "functions": {
+	    "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT/functions"
+	  }
+	}
+
+Product Operations
+-----------------
+
+Retrieve A Product
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /products/{productId}``
+    - N/A
+    - Retrieves the Product with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+	curl -u "user@example.com:password" \
+	"https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT" \
+	-H 'Accept: application/json'
+
+Using A Product for Look-Up
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to retrieve other independent resources using the Product for look-up.
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /products/{productId}/{resourceName}``
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a collection of all of a Product's associated resources of the specified type. Possible resource types are: ``devices`` and ``functions``.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving a Collection Associated with a Product**
+
+.. code-block:: bash
+
+	curl -u "user@example.com:password" \
+	"https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpr0doocT/devices" \
+	-H 'Accept: application/json'
+
+This query would retrieve a collection containing all the Devices associated with the specified Product.
 
 Device's data (resources) can be retrieved by hitting /api/v1/devices/{id}/resources{data,events,commands}/{key} (eg. */api/v1/devices/s0m31D/resources/data/temp*).
 
