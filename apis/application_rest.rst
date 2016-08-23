@@ -1137,7 +1137,7 @@ API keys are used for authorization during CloudThing API operations.
     - Indicates when this resource’s attributes were last modified.
 
   * - ``status``
-    - string (enum)
+    - String (enum)
     - ``ENABLED``, ``DISABLED``
     - Presents status of API key.
 
@@ -1164,6 +1164,7 @@ API keys are used for authorization during CloudThing API operations.
     "href": "https://vanilla-ice.cloudthing.io/api/v1/apikeys/AP1k3y1D3XamP13",
     "name": "CRM key",
     "key": "cJyGHVM1yIKoGQZowZXQz934e",
+    "secret": "sIe7QxDach1l4xNzmrKNTH5TVn9eV9PJ",
     "createdAt": "2016-05-15T11:18:33Z",
     "updatedAt": "2016-05-15T11:18:33Z",
     "status": "ENABLED",
@@ -1175,6 +1176,10 @@ API keys are used for authorization during CloudThing API operations.
       "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
     }
   }
+
+.. warning::
+
+  The API key secret will be returned only once as a part of response for API key create request. You will not be able to retrieve that secret again. You can also create API key and download secret through CloudThing Control Center web application or CloudThing CLI.
 
 API key Operations
 -----------------
