@@ -216,11 +216,11 @@ Retrieve A Tenant
     - Optional Query Parameters
     - Description
 
-  * - GET /tenants/current
+  * - ``GET /tenants/current``
     - N/A
     - Retrieves the Tenant associated with the current API key. The response will be a ``302 Redirect``. You will find the location of the Tenant in a Location header and response body, although most REST libraries and web browsers will automatically issue a request for it.
 
-  * - GET /tenants/{tenantId}
+  * - ``GET /tenants/{tenantId}``
     - N/A
     - Retrieves the Tenant with the specified ID.
 
@@ -248,7 +248,9 @@ Response::
 	}
 
 Retrieves tenant:
+
 .. code-block:: bash
+
 curl -u "user@example.com:password" \
 "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT" \
 -H 'Accept: application/json'
