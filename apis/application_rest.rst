@@ -1964,39 +1964,195 @@ Example Queries
 This query would retrieve a collection containing lat measurments of ``temp`` resource by Device.
 
 
-User
-================
 
-Password can be changed by making POST request to user endpoint. To obtain user ID, hit /api/v1/users/current. Example:
+Cluster
+============
 
-**GET**
+.. contents::
+    :local:
+    :depth: 2
 
-Retrieves link to current user:
+**Description**
+
+Cluster is a container for devices which exists in separate context for every Application. Each Device can belong to only one Cluster per Application (eg. Cluster would represent a home or apartment in Smart Home project).
+
+**Cluster URL**
+
+``/clusters/{clusterId}``
+
+**Cluster Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``name``
+    - String
+    - 1 < N < 256 characters
+    - Cluster's name. 
+
+  * - ``description``
+    - String
+    - N/A
+    - Description of Cluster.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``custom``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to a :ref:`Tenant <ref-tenant>` owning this Product.
+
+  * - ``application``
+    - Link
+    - N/A
+    - A link to a :ref:`Application <ref-application>` this Cluster exists within.
+
+  * - ``users``
+    - Link
+    - N/A
+    - A link to a Collection of the :ref:`Users <ref-application>` who has rights to this Cluster.
+
+  * - ``devices``
+    - Link
+    - N/A
+    - A link to a Collection of the :ref:`Devices <ref-devices>` which belongs to this Cluster.
+
+  * - ``groups``
+    - Link
+    - N/A
+    - A link to a Collection of the :ref:`Groups <ref-group>` existing within this Cluster.
+
+  * - ``memberships``
+    - Link
+    - N/A
+    - A link to a Collection of the :ref:`Group Memberships <ref-groupMemberships>` associated with this Cluster.
+
+**Cluster Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX",
+    "name": "NYC apartment",
+    "description": "The Does family's New York City apartment "
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "custom": {
+
+    },
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    },
+    "application": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/AppL1CaT10n1D"
+    },
+    "users": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX/users"
+    },
+    "devices": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX/devices"
+    },
+    "groups": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX/groups"
+    },
+    "memberships": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX/memberships"
+    }
+  }
+
+Cluster Operations
+-----------------
+
+Create A Cluster
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /applications/{applicationId}/clusters``
+    - Optional: ``name``, ``description``, ``custom``.
+    - Creates new Cluster.
+
+Retrieve A Cluster
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /clusters/{clusterId}``
+    - ``expand``
+    - Retrieves the Cluster with the specified ID. Expandable links: ``tenant``, ``application``, ``users``, ``devices``, ``groups``, ``memberships``.
+
+Update A Cluster
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /clusters/{clusterId}``
+    -  ``name``, ``description``, ``custom``
+    - Updates the Cluster with the specified ID.
+
+Delete A Cluster
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /clusters/{clusterId}``
+    - N/A
+    - Deletes the Cluster with the specified ID.
+
+Example Query
+"""""""""""""
 
 .. code-block:: bash
 
-	curl -u "user@example.com:password" \
-	https://vanilla-ice.cloudthing.io/api/v1/users/current
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX" \
+  -H 'Accept: application/json'
 
-Response::
-
-	HTTP/1.1 302 Found
-	Content-Type: application/json
-	Location: https://vanilla-ice.cloudthing.io/api/v1/users/Som31D0fuZ3R
-
-	{
-		"user": {
-			"href": "https://vanilla-ice.cloudthing.io/api/v1/users/Som31D0fuZ3R"
-		}
-	}
-
-**POST**
-
-Change password:
-
-.. code-block:: bash
-
-	curl -u "user@example.com:password" \
-	-H "Content-Type: application/json" \
-	-d '{"password": "newpass"}' \
-	https://vanilla-ice.cloudthing.io/api/v1/users/Som31D0fuZ3R
