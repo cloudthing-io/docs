@@ -496,6 +496,439 @@ Example Queries
 
 This query would retrieve a collection containing all the Users associated with the specified Directory.
 
+Usergroup
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Usergroup is a container for User resources. Every user can belong to many Groups.
+
+**Directory URL**
+
+``/usergroups/{usergroupId}``
+
+**Usergroup Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``name``
+    - String
+    - 1 < N < 256 characters
+    - Name of Usergroup.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``custom``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to the :ref:`Tenant <ref-tenant>` owning this Usergroup.
+
+  * - ``directory``
+    - Link
+    - N/A
+    - A link to the :ref:`Directory <ref-directory>` this Usergroup is stored in.
+
+  * - ``users``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Users <ref-user>` assigned to this Usergroup.
+
+  * - ``memberships``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Memberships <ref-membership>` of this Usergroup.
+
+**Usergroup Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/usergroups/Som31D0fOoZ3rGru",
+    "name": "Home owners",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "custom": {
+
+    },
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    },
+    "directory": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/directories/Som31D0fD1r3cTo"
+    },
+    "users": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/usergroups/Som31D0fOoZ3rGru/users"
+    },
+    "memberships": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/usergroups/Som31D0fOoZ3rGru/memberships"
+    }
+  }
+
+Usergroup Operations
+-----------------
+
+Create A Usergroup
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /directories/{directoryId}/usergroups``
+    - Required: ``name``. Optional: ``custom``.
+    - Creates new usergroup.
+
+Retrieve A Usergroup
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /usergroups/{usergroupId}``
+    - ``expand``
+    - Retrieves the Usergroup with the specified ID. Expandable links: ``users``, ``memberships``, ``directory``, ``tenant``.
+
+Update A Usergroup
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /usergroups/{usergroupId}``
+    - ``name``, ``custom``
+    - Updates the Usergroup with the specified ID.
+
+Delete A Usergroup
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /usergroups/{usergroupId}``
+    - N/A
+    - Deletes the Usergroup with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/usergroups/Som31D0fOoZ3rGru" \
+  -H 'Accept: application/json'
+
+Using A Usergroup for Look-Up
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to retrieve other independent resources using the Usergroup for look-up.
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /usergroups/{usergroupId}/{resourceName}``
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a collection of all of a Usergroup's associated resources of the specified type. Possible resource types are: ``users`` and ``memberships``.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving a Collection Associated with a Usergroup**
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/usergroups/Som31D0fOoZ3rGru/users" \
+  -H 'Accept: application/json'
+
+This query would retrieve a collection containing all the Users associated with the specified Usergroup.
+
+User
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+User represents a real person's account - either managing CloudThing's Tenant ot using end solutions.
+
+**User URL**
+
+``/users/{userId}``
+
+**User Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``email``
+    - String
+    - 1 < N < 256 characters
+    - User's email address.
+
+  * - ``firstName``
+    - String
+    - 1 < N < 256 characters
+    - User's first name.
+
+  * - ``surname``
+    - String
+    - 1 < N < 256 characters
+    - User's surname.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``activated``
+    - Boolean
+    - N/A
+    - Indicates wheter user activated the account (eg. by email verification).
+
+  * - ``custom``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to the :ref:`Tenant <ref-tenant>` owning this User.
+
+  * - ``directory``
+    - Link
+    - N/A
+    - A link to the :ref:`Directory <ref-directory>` this User is stored in.
+
+  * - ``applications``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Applications <ref-application>` this User has access to.
+
+  * - ``usergroups``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Usergroups <ref-usergroup>` this User belongs to.
+
+  * - ``memberships``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Memberships <ref-membership>` of this User.
+
+  * - ``devices``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Devices <ref-device>` this User has rights to.
+
+**User Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f",
+    "email": "john.doe@cloudthing.io",
+    "firstName": "John",
+    "surname": "Doe",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "activated": true,
+    "custom": {
+
+    },
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    },
+    "directory": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/directories/Som31D0fD1r3cTo"
+    },
+    "applications": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f/applications"
+    },
+    "usergroups": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f/usergroups"
+    },
+    "memberships": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f/memberships"
+    },
+    "devices": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f/devices"
+    }
+  }
+
+User Operations
+-----------------
+
+Create A User
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /directories/{directoryId}/users``
+    - Required: ``email``, ``password``. Optional: ``firstName``, ``surname``, ``custom``.
+    - Creates new user.
+
+Retrieve A User
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /users/{userId}``
+    - ``expand``
+    - Retrieves the Usergroup with the specified ID. Expandable links: ``applications``, ``usergroups``, ``memberships``, ``devices``, ``directory``, ``tenant``.
+
+Update A User
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /users/{userId}``
+    - ``email``, ``password``, ``firstName``, ``surname``, ``custom``
+    - Updates the User with the specified ID.
+
+Delete A User
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /users/{userId}``
+    - N/A
+    - Deletes the User with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f" \
+  -H 'Accept: application/json'
+
+Using A User for Look-Up
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to retrieve other independent resources using the User for look-up.
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /users/{userId}/{resourceName}``
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a collection of all of a User's associated resources of the specified type. Possible resource types are: ``applications``, ``devices``, ``usergroups`` and ``memberships``.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving a Collection Associated with a User**
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/users/Som31DUuZ3R0f/applications" \
+  -H 'Accept: application/json'
+
+This query would retrieve a collection containing all the Applications associated with the specified User.
+
+
 Application
 ============
 
