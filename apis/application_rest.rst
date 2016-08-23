@@ -3,13 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-HTTP REST API
-======================================
+ ******************
+ HTTP REST API Reference
+ ******************
 
-General concept
---------------------------------
+REST API Core Concepts
+==========================
 
-**Methods**
+The following information is essential to understanding how the CloudThing API works.
+
+.. contents::
+    :local:
+    :depth: 2
+
+Methods
+------------
 
 REST API uses JSON as serialization format and requires proper *Content-Type* and *Accept* headers in every client request.
 
@@ -23,8 +31,8 @@ API uses following HTTP verbs (methods):
 
 API **does not** support **PUT** since it is not possible to replace objects and **PATCH** which as we believe is commonly misunderstood and being used in wrong way (for updates).
 
-**Linking**
-
+Linking
+---------
 CloudThing API implements great linking concept developed by awesome people at stormpath.com.
 Every response (collection or object) is identified by its URL in *"href"* field, there is no other *id* provided. All relations between objects use this method and embed *href* in JSON object named as relative. It is possible to expanding relations in single request (one level only) by providing relation name to *expand* parameter in query.
 
@@ -32,14 +40,16 @@ In short words:
 
 Just hit /api/v1/tenants/current and start exploring!
 
-**Host**
+Host
+----------
 
 HTTP API accept only encrypted (TLS) requests. All HTTP non-TLS requests will be redirected.
 **Note that your credential still be exposed if you use plain HTTP!**
 
 The HTTP server listens on standard port 443 of tenant's virtual host.
 
-**Authentication**
+Authentication
+---------------------
 
 CloudThing API supports Basic and Bearer (JWT) authentication. Basic auth needs:
 
@@ -49,12 +59,101 @@ CloudThing API supports Basic and Bearer (JWT) authentication. Basic auth needs:
 To obtain JWT token one should send POST request to */api/v1/auth/token* endpoint with Basic auth.
 
 Tenant
---------------------------------
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
 
 Tenant is an organization on behalf of which user or API key requests data. When registering an account at CloudThing.io the organization and user within it are created.
 
-/tenants/{id}
-############################
+**Tenant URL**
+
+``/tenants/{tenantId}``
+
+**Tenant Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``name``
+    - String
+    - 1 < N < 256 characters
+    - Full name of Tenant, eg. organization/company name.
+
+  * - ``shortName``
+    - String
+    - 1 < N <= 63 characters
+    - Human-readable unique key. This key is unique and assigned by CloudThing upo registration. If you would like to change it, please contact us.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``customData``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``limits``
+    - Object
+    - N/A
+    - An embedded object containing information about available limits of tokens, SMSs and emails.
+
+  * - ``directories``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Directories <ref-dierctory>` mapped to this Tenant.
+
+  * - ``applications``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Applications <ref-application>` mapped to this Tenant.
+
+  * - ``products``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Products <ref-product>` mapped to this Tenant.
+
+  * - ``devices``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Devices <ref-device>` mapped to this Tenant.
+
+  * - ``analytics``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Analytics <ref-analytics>` configured for this Tenant.
+
+  * - ``users``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Users <ref-user>` mapped to this Tenant.
+
+  * - ``statistics``
+    - Link
+    - N/A
+    - A link to a Collection of all the :ref:`Statstics <ref-statistic>` available for this Tenant.
+
 
 **GET**
 
