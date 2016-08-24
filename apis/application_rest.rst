@@ -3,9 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
- ******************
- HTTP REST API Reference
- ******************
+******************
+HTTP REST API Reference
+******************
 
 REST API Core Concepts
 ==========================
@@ -15,6 +15,12 @@ The following information is essential to understanding how the CloudThing API w
 .. contents::
     :local:
     :depth: 2
+
+Base URL
+---------------
+This API is accesible via ``/api/v1``.
+The full path for example tenant ``vanilla-ice`` would be:
+``https://vanilla-ice.cloudthing.io/api/v1``
 
 Methods
 ------------
@@ -40,13 +46,15 @@ In short words:
 
 Just hit /api/v1/tenants/current and start exploring!
 
-Host
+TLS
 ----------
 
 HTTP API accept only encrypted (TLS) requests. All HTTP non-TLS requests will be redirected.
-**Note that your credential still be exposed if you use plain HTTP!**
-
 The HTTP server listens on standard port 443 of tenant's virtual host.
+
+.. warning::
+
+  Note that due to redirection of HTTP request port 80 is open, so your credentials will still be exposed if you send request without TLS encryption.
 
 Authentication
 ---------------------
@@ -2851,3 +2859,7 @@ Example Query
   "https://vanilla-ice.cloudthing.io/api/v1/exports/3xP0rT1D1234" \
   -H 'Accept: application/json'
 
+
+******************
+MQTT Pub/Sub API Reference
+******************
