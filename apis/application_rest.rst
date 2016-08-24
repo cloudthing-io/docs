@@ -104,7 +104,7 @@ Tenant is an organization on behalf of which user or API key requests data. When
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -326,7 +326,7 @@ Directory is a container for User and Usergroup resources. Every user is unique 
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -537,7 +537,7 @@ Usergroup is a container for User resources. Every user can belong to many Group
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -746,7 +746,7 @@ User represents a real person's account - either managing CloudThing's Tenant ot
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -988,7 +988,7 @@ Membership represents assignment of User to Usergroup.
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -1131,7 +1131,7 @@ API keys are used for authorization during CloudThing API operations.
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -1294,7 +1294,7 @@ Application is a resource representing real-world application or integration wit
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -1548,7 +1548,7 @@ Product is a model of your real-world product. You can create particular devices
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -1812,7 +1812,7 @@ Device is a single real-world node or other data source implementing Product mod
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -2009,7 +2009,7 @@ Cluster is a container for devices which exists in separate context for every Ap
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -2185,6 +2185,134 @@ Example Queries
 This query would retrieve a collection containing all the Devices associated with the specified Cluster.
 
 
+Cluster Membership
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Cluster Membership represents assignment of Device to Cluster.
+
+**Cluster Membership URL**
+
+``/clusterMemberships/{membershipId}``
+
+**Cluster Membership Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``updatedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``device``
+    - Link
+    - N/A
+    - A link to the :ref:`Device <ref-device>` this Cluster Membership is about.
+
+  * - ``cluster``
+    - Link
+    - N/A
+    - A link to the :ref:`Cluster <ref-cluster>` this Cluster Membership is about.
+
+**Cluster Membership Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/clusterMemberships/Som31D0fMeM83rSh1P",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "device": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/devices/d3v1C31dExa"
+    },
+    "cluster": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/cLUzT3r1DS0m3"
+    }
+  }
+
+Cluster Membership Operations
+-----------------
+
+Create A Cluster Membership
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /clusters/{clusterId}/memberships``
+    - Required: ``device``.
+    - Assigns given Device to Cluster.
+
+  * - ``POST /devices/{deviceId}/clusterMemberships``
+    - Required: ``cluster``.
+    - Assigns Device to given Cluster.
+
+Retrieve A Cluster Membership
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /clusterMemberships/{membershipId}``
+    - ``expand``
+    - Retrieves the Cluster Membership with the specified ID. Expandable links: ``device``, ``cluster``.
+
+Delete A Cluster Membership
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /clusterMemberships/{membershipId}``
+    - N/A
+    - Deletes the Cluster Membership with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/clusterMemberships/Som31D0fMeM83rSh1P" \
+  -H 'Accept: application/json'
+
 Group
 ============
 
@@ -2231,7 +2359,7 @@ Group is a container for devices of the same Cluster. Each Device can belong to 
     - RFC3339 Datetime
     - Indicates when this resource was created.
 
-  * - ``modifiedAt``
+  * - ``updatedAt``
     - String
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
@@ -2389,3 +2517,131 @@ Example Queries
   -H 'Accept: application/json'
 
 This query would retrieve a collection containing all the Devices associated with the specified Group.
+
+Group Membership
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Group Membership represents assignment of Device to Group.
+
+**Group Membership URL**
+
+``/groupMemberships/{membershipId}``
+
+**Group Membership Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``updatedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``device``
+    - Link
+    - N/A
+    - A link to the :ref:`Device <ref-device>` this Group Membership is about.
+
+  * - ``group``
+    - Link
+    - N/A
+    - A link to the :ref:`Group <ref-group>` this Group Membership is about.
+
+**Group Membership Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/groupMemberships/Som31D0fMeM83rSh1P",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "device": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/devices/d3v1C31dExa"
+    },
+    "group": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/groups/gRooP1DS0m3"
+    }
+  }
+
+Group Membership Operations
+-----------------
+
+Create A Group Membership
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /groups/{groupId}/memberships``
+    - Required: ``device``.
+    - Assigns given Device to Group.
+
+  * - ``POST /devices/{deviceId}/groupMemberships``
+    - Required: ``group``.
+    - Assigns Device to given Group.
+
+Retrieve A Group Membership
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /groupMemberships/{membershipId}``
+    - ``expand``
+    - Retrieves the Group Membership with the specified ID. Expandable links: ``device``, ``group``.
+
+Delete A Group Membership
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /groupMemberships/{membershipId}``
+    - N/A
+    - Deletes the Group Membership with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/groupMemberships/Som31D0fMeM83rSh1P" \
+  -H 'Accept: application/json'
