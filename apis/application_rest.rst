@@ -2154,6 +2154,35 @@ Example Query
   "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX" \
   -H 'Accept: application/json'
 
+Using A Cluster for Look-Up
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to retrieve other independent resources using the Cluster for look-up.
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /clusters/{clusterId}/{resourceName}``
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a collection of all of a Cluster's associated resources of the specified type. Possible resource types are: ``devices``, ``users`, ``groups`` and ``memberships``.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving a Collection Associated with a Cluster**
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX/devices" \
+  -H 'Accept: application/json'
+
+This query would retrieve a collection containing all the Devices associated with the specified Cluster.
 
 
 Group
@@ -2331,3 +2360,32 @@ Example Query
   "https://vanilla-ice.cloudthing.io/api/v1/groups/gRoUp31xDeX" \
   -H 'Accept: application/json'
 
+Using A Group for Look-Up
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to retrieve other independent resources using the Group for look-up.
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /groups/{groupId}/{resourceName}``
+    - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
+    - Retrieves a collection of all of a Group's associated resources of the specified type. Possible resource types are: ``devices``.
+
+Example Queries
+"""""""""""""""
+
+**Retrieving a Collection Associated with a Group**
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/groups/gRoUp31xDeX/devices" \
+  -H 'Accept: application/json'
+
+This query would retrieve a collection containing all the Devices associated with the specified Group.
