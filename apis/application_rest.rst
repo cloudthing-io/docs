@@ -104,17 +104,17 @@ Basic auth
   * - API key
     - ``key``
     - ``secret``
-    - Header: `Authorization: Basic ` + base64 encoded ``key:secret``
+    - Header: ``Authorization: Basic `` + base64 encoded ``key:secret``
 
   * - Official user
     - ``email``
     - ``password``
-    - Header: `Authorization: Basic ` + base64 encoded ``email:password``
+    - Header: ``Authorization: Basic `` + base64 encoded ``email:password``
 
   * - User
     - ``email``
     - ``password``
-    - Header: `Authorization: Basic ` + base64 encoded ``email:password``, Query: ``application=applicationId``
+    - Header: ``Authorization: Basic `` + base64 encoded ``email:password``, Query: ``application=applicationId``
 
 
 JWT token auth
@@ -132,7 +132,7 @@ To obtain JWT token one should send POST request to ``/api/v1/auth/token`` endpo
 
   * - API key/Official user/User
     - ``access_token``
-    - Header: `Authorization: Bearer {access_token}`
+    - Header: ``Authorization: Bearer {access_token}``
 
 
 Tenant
