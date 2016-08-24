@@ -2645,3 +2645,209 @@ Example Query
   curl -u "user@example.com:password" \
   "https://vanilla-ice.cloudthing.io/api/v1/groupMemberships/Som31D0fMeM83rSh1P" \
   -H 'Accept: application/json'
+
+Export
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Export represents access level for different resources granted to Application .
+
+**Export URL**
+
+``/exports/{exportId}``
+
+**Export Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``updatedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``modelType``
+    - String (enum)
+    - ``DEVICE``, ``GROUP``, ``CLUSTER``
+    - Type of exported resource owner.
+
+  * - ``product``
+    - Link
+    - N/A
+    - A link to a :ref:`Product <ref-tenant>` if ``modelType`` is ``DEVICE``.
+
+  * - ``limitsType``
+    - String (enum)
+    - ``DEVICE``, ``GROUP``, ``CLUSTER``
+    - Type of container limiting exporting resources.
+
+  * - ``limits``
+    - Link
+    - N/A
+    - A link to a :ref:`Device <ref-device>` if ``limitsType`` is ``DEVICE``, a :ref:`Group <ref-group>` if ``limitsType`` is ``GROUP`` or a :ref:`Cluster <ref-cluster>` if ``limitsType`` is ``CLUSTER``.
+
+  * - ``export``
+    - Array (Object)
+    - N/A
+    - An array of objects defining exported resources.
+
+  * - ``tenantExportingPermission``
+    - String (enum)
+    - ``PRIMARY``, ``EXPORT``
+    - Indicates wheter exporting Tenant has a primary permission for this resource or imported it.
+
+  * - ``tenantExporting``
+    - Link
+    - N/A
+    - A link to a :ref:`Tenant <ref-tenant>` owning this Product.
+
+  * - ``application``
+    - Link
+    - N/A
+    - A link to a :ref:`Application <ref-application>` importing this Export.
+
+
+**Export Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/exports/3xP0rT1D1234",
+    "modelType": "DEVICE",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "product": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpR0do0cT"
+    },
+    "limitsType": "CLUSTER",
+    "limits": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/cLo0zt3rz1D"
+    },
+    "export": [
+      {
+        "type": "DATA",
+        "name": "temp",
+        "read": true,
+        "write": true,
+        "grantRead": false,
+        "grantWrite": false
+      },
+      {
+        "type": "COMMAND",
+        "name": "turn",
+        "read": true,
+        "write": true,
+        "grantRead": true,
+        "grantWrite": false
+      },
+      {
+        "type": "PROPERTY",
+        "name": "macaddr",
+        "read": true,
+        "write": false,
+        "grantRead": false,
+        "grantWrite": false
+      }     
+    ],
+    "tenantExportingPermission": "PRIMARY",
+    "tenantExporting": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    },
+    "application": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/aPpl1Cat10n1D"
+    }
+  }
+
+Export Operations
+-----------------
+
+Create An Export
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /applications/{applicationId}/exports``
+    - Required: ``modelType``, ``export``, ``tenantExportingPermission``. Required if ``modelType`` is ``DEVICE``: ``product``. Optional: ``limitsType``, ``limits``.
+    - Creates new Export.
+
+Retrieve An Export
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /exports/{exportId}``
+    - ``expand``
+    - Retrieves the Export with the specified ID. Expandable links: ``product``, ``limits``, ``application``, ``tenantExporting``.
+
+Update An Export
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /exports/{exportId}``
+    - ``modelType``, ``export``, ``product``, ``limitsType``, ``limits``
+    - Updates the Export with the specified ID.
+
+Delete An Export
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /exports/{exportId}``
+    - N/A
+    - Deletes the Export with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/exports/3xP0rT1D1234" \
+  -H 'Accept: application/json'
+
