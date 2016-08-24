@@ -212,11 +212,11 @@ Retrieving collection:
     "page": 1,
     "items": [
       {
-        "href: "https://vanilla-ice.cloudthing.io/api/v1/applications/aPp1iCaT10n01"
+        "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/aPp1iCaT10n01"
         // JSON continues here, trunked for readability
       },
       {
-        "href: "https://vanilla-ice.cloudthing.io/api/v1/applications/ArFd87gf10n02"
+        "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/ArFd87gf10n02"
         // JSON continues here, trunked for readability
       }
     ],
@@ -253,7 +253,7 @@ Link in resource body:
     "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA",
     // JSON continues here, trunked for readability
     "tenant": {
-      "href: "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0ft3nAnT"
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0ft3nAnT"
     }
   }
 
@@ -271,7 +271,7 @@ Expanded link in resource body:
     "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA",
     // JSON continues here, trunked for readability
     "tenant": {
-      "href: "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0ft3nAnT"
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0ft3nAnT"
       "shortName": "vanilla-ice",
       // JSON continues here, trunked for readability
     }
@@ -297,11 +297,11 @@ Expanded link to collection:
       "page": 1,
       "items": [
         {
-          "href: "https://vanilla-ice.cloudthing.io/api/v1/clusters/cLusCaT10n01"
+          "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/cLusCaT10n01"
           // JSON continues here, trunked for readability
         },
         {
-          "href: "https://vanilla-ice.cloudthing.io/api/v1/clusters/Ar76fya10n02"
+          "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/Ar76fya10n02"
           // JSON continues here, trunked for readability
         }
       ],
