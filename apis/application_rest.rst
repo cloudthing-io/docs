@@ -65,15 +65,6 @@ Serialization format
 Currently REST API uses only JSON as serialization format and requires proper ``Content-Type`` (``POST``) and ``Accept`` (``POST``, ``GET``) headers in every client request.
 
 
-Linking
----------
-CloudThing API implements great linking concept developed by awesome people at stormpath.com.
-Every response (collection or object) is identified by its URL in *"href"* field, there is no other *id* provided. All relations between objects use this method and embed *href* in JSON object named as relative. It is possible to expanding relations in single request (one level only) by providing relation name to *expand* parameter in query.
-
-In short words:
-
-Just hit ``/api/v1/tenants/current`` and start exploring!
-
 TLS
 ----------
 
@@ -104,17 +95,17 @@ Basic auth
   * - API key
     - ``key``
     - ``secret``
-    - Header: ``Authorization: Basic `` + base64 encoded ``key:secret``
+    - Header: ``Authorization: Basic base64({key}:{secret})``
 
   * - Official user
     - ``email``
     - ``password``
-    - Header: ``Authorization: Basic `` + base64 encoded ``email:password``
+    - Header: ``Authorization: Basic base64({email}:{password})``
 
   * - User
     - ``email``
     - ``password``
-    - Header: ``Authorization: Basic `` + base64 encoded ``email:password``, Query: ``application=applicationId``
+    - Header: ``Authorization: Basic base64({email}:{password})``, Query: ``application=applicationId``
 
 
 JWT token auth
@@ -134,6 +125,191 @@ To obtain JWT token one should send POST request to ``/api/v1/auth/token`` endpo
     - ``access_token``
     - Header: ``Authorization: Bearer {access_token}``
 
+
+Collections
+---------
+
+When requesting collection you can add additional query parameters:
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Default Value
+    - Description
+
+  * - ``limit``
+    - Integer
+    - 25
+    - Requested maximum number of returned items in single response.
+
+  * - ``page``
+    - Integer
+    - 1
+    - Requested page of returned items.
+
+API will return meta data in top level of object and items in ``items`` array.
+Metadata is:
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``size``
+    - Integer
+    - N/A
+    - Number of all items in collection.
+
+  * - ``limit``
+    - Integer
+    - N/A
+    - Requested maximum number of returned items in single response.
+
+  * - ``page``
+    - Integer
+    - N/A
+    - Requested page of returned items in cuurent response.
+
+  * - ``prev``
+    - Link
+    - N/A
+    - The URL to previus page of collection.
+
+  * - ``next``
+    - Link
+    - N/A
+    - The URL to next page of collection.
+
+Example Query
+"""""""""""""
+
+Retrieving collection:
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0ft3nAnT/applications?limit=2&page=1" \
+  -H 'Accept: application/json'
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0ft3nAnT/applications?limit=2&page=1",
+    "size": 3,
+    "limit": 2,
+    "page": 1,
+    "items": [
+      {
+        "href: "https://vanilla-ice.cloudthing.io/api/v1/applications/aPp1iCaT10n01"
+        // JSON continues here, trunked for readability
+      },
+      {
+        "href: "https://vanilla-ice.cloudthing.io/api/v1/applications/ArFd87gf10n02"
+        // JSON continues here, trunked for readability
+      }
+    ],
+    "next": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0ft3nAnT/applications?limit=2&page=2"
+    }
+  }
+
+
+Linking & expanding
+---------
+
+CloudThing API implements great linking concept developed by awesome people at ``stormpath.com``.
+Every response (collection or item) is identified by its URL in ``href`` field, there is no other *id* provided. All relations between objects use this method and embed ``href`` in JSON object named as relative. It is possible to expand relations in single request (one level only) by providing relation name to ``expand`` parameter in query. You can expand several relations by putting them comma-seprated and even paginate and limit results if relation is collection by adding `(limit:{limit},offset:{offset})` after relation name.
+
+In short words:
+
+Just hit ``/api/v1/tenants/current`` and start exploring!
+
+Example Query
+"""""""""""""
+
+Link in resource body:
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA" \
+  -H 'Accept: application/json'
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA",
+    // JSON continues here, trunked for readability
+    "tenant": {
+      "href: "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0ft3nAnT"
+    }
+  }
+
+Expanded link in resource body:
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA?expand=tenant" \
+  -H 'Accept: application/json'
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA",
+    // JSON continues here, trunked for readability
+    "tenant": {
+      "href: "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0ft3nAnT"
+      "shortName": "vanilla-ice",
+      // JSON continues here, trunked for readability
+    }
+  }
+
+Expanded link to collection:
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA?expand=clusters(limit:2,page:1)" \
+  -H 'Accept: application/json'
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA",
+    // JSON continues here, trunked for readability
+    "clusters": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA/clusters",
+      "size": 3,
+      "limit": 2,
+      "page": 1,
+      "items": [
+        {
+          "href: "https://vanilla-ice.cloudthing.io/api/v1/clusters/cLusCaT10n01"
+          // JSON continues here, trunked for readability
+        },
+        {
+          "href: "https://vanilla-ice.cloudthing.io/api/v1/clusters/Ar76fya10n02"
+          // JSON continues here, trunked for readability
+        }
+      ],
+      "next": {
+        "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/Som31D0faPpl1cA/clusters?limit=2&page=2"
+      }
+    }
+  }
 
 Tenant
 ============
