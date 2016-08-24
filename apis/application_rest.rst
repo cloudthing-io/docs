@@ -2056,7 +2056,7 @@ Cluster is a container for devices which exists in separate context for every Ap
   {
     "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX",
     "name": "NYC apartment",
-    "description": "The Does family's New York City apartment "
+    "description": "The Does family's New York City apartment",
     "createdAt": "2016-05-15T11:18:33Z",
     "updatedAt": "2016-05-15T11:18:33Z",
     "custom": {
@@ -2239,7 +2239,7 @@ Group is a container for devices of the same Cluster. Each Device can belong to 
   {
     "href": "https://vanilla-ice.cloudthing.io/api/v1/groups/gRoUp31xDeX",
     "name": "Living room",
-    "description": "Living room in New York City apartment "
+    "description": "Living room in New York City apartment",
     "createdAt": "2016-05-15T11:18:33Z",
     "updatedAt": "2016-05-15T11:18:33Z",
     "custom": {
