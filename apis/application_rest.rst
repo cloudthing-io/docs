@@ -230,7 +230,7 @@ Linking & expanding
 ---------
 
 CloudThing API implements great linking concept developed by awesome people at ``stormpath.com``.
-Every response (collection or item) is identified by its URL in ``href`` field, there is no other *id* provided. All relations between objects use this method and embed ``href`` in JSON object named as relative. It is possible to expand relations in single request (one level only) by providing relation name to ``expand`` parameter in query. You can expand several relations by putting them comma-seprated and even paginate and limit results if relation is collection by adding `(limit:{limit},offset:{offset})` after relation name.
+Every response (collection or item) is identified by its URL in ``href`` field, there is no other *id* provided. All relations between objects use this method and embed ``href`` in JSON object named as relative. It is possible to expand relations in single request (one level only) by providing relation name to ``expand`` parameter in query. You can expand several relations by putting them comma-seprated and even paginate and limit results if relation is collection by adding ``(limit:{limit},offset:{offset})`` after relation name.
 
 In short words:
 
