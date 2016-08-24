@@ -25,17 +25,45 @@ The full path for example tenant ``vanilla-ice`` would be:
 Methods
 ------------
 
-REST API uses JSON as serialization format and requires proper *Content-Type* and *Accept* headers in every client request.
-
 API uses following HTTP verbs (methods):
 
-- **GET** (collection) - retrieves collection,
-- **GET** (item) - retrieves single item,
-- **POST** (collection) - creates new item in collection,
-- **POST** (item) - updates item,
-- **DELETE** (item) - deletes item.
+.. list-table::
+  :widths: 30 30 40
+  :header-rows: 1
 
-API **does not** support **PUT** since it is not possible to replace objects and **PATCH** which as we believe is commonly misunderstood and being used in wrong way (for updates).
+  * - Method
+    - Target
+    - Action
+
+  * - ``GET``
+    - collection
+    - Retrieves collection.
+
+  * - ``GET``
+    - item
+    - Retrieves single item.
+
+  * - ``POST``
+    - collection
+    - Creates new item in collection.
+
+  * - ``POST``
+    - item
+    - Updates item.
+
+  * - ``DELETE``
+    - item
+    - Deletes item.
+
+.. note::
+
+  API **does not** support **PUT** since it is not possible to replace objects and **PATCH** which as we believe is commonly misunderstood and being used in wrong way (for updates).
+
+Serialization format
+----------------------
+
+Currently REST API uses only JSON as serialization format and requires proper ``Content-Type`` (``POST``) and ``Accept`` (``POST``, ``GET``) headers in every client request.
+
 
 Linking
 ---------
@@ -44,27 +72,68 @@ Every response (collection or object) is identified by its URL in *"href"* field
 
 In short words:
 
-Just hit /api/v1/tenants/current and start exploring!
+Just hit ``/api/v1/tenants/current`` and start exploring!
 
 TLS
 ----------
 
-HTTP API accept only encrypted (TLS) requests. All HTTP non-TLS requests will be redirected.
+HTTP API accepts only encrypted (TLS) requests. All HTTP non-TLS requests will be redirected.
 The HTTP server listens on standard port 443 of tenant's virtual host.
 
 .. warning::
 
   Note that due to redirection of HTTP request port 80 is open, so your credentials will still be exposed if you send request without TLS encryption.
 
-Authentication
+Authentication & authorization
 ---------------------
 
-CloudThing API supports Basic and Bearer (JWT) authentication. Basic auth needs:
+CloudThing REST API supports Basic and Bearer (JWT) authentication. Since API can be used with not only API keys but also users' (official and end) credentials, one should provide following authorization data.
 
-- Username: {apiKey} or {userEmail},
-- Password: {apiSecret} or {userPassword}.
+Basic auth
+^^^^^^^^^^^^^^^^^
 
-To obtain JWT token one should send POST request to */api/v1/auth/token* endpoint with Basic auth.
+.. list-table::
+  :widths: 25 25 25 25
+  :header-rows: 1
+
+  * - Requester
+    - Username
+    - Password
+    - Header & query
+
+  * - API key
+    - ``key``
+    - ``secret``
+    - Header: `Authorization: Basic ` + base64 encoded ``key:secret``
+
+  * - Official user
+    - ``email``
+    - ``password``
+    - Header: `Authorization: Basic ` + base64 encoded ``email:password``
+
+  * - User
+    - ``email``
+    - ``password``
+    - Header: `Authorization: Basic ` + base64 encoded ``email:password``, Query: ``application=applicationId``
+
+
+JWT token auth
+^^^^^^^^^^^^^^^^^
+
+To obtain JWT token one should send POST request to ``/api/v1/auth/token`` endpoint with Basic auth.
+
+.. list-table::
+  :widths: 30 30 40
+  :header-rows: 1
+
+  * - Requester
+    - Token
+    - Header & query
+
+  * - API key/Official user/User
+    - ``access_token``
+    - Header: `Authorization: Bearer {access_token}`
+
 
 Tenant
 ============
