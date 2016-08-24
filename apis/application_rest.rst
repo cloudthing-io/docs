@@ -1963,8 +1963,6 @@ Example Queries
 
 This query would retrieve a collection containing lat measurments of ``temp`` resource by Device.
 
-
-
 Cluster
 ============
 
@@ -2154,5 +2152,182 @@ Example Query
 
   curl -u "user@example.com:password" \
   "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX" \
+  -H 'Accept: application/json'
+
+
+
+Group
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Group is a container for devices of the same Cluster. Each Device can belong to several Groups within one Cluster (eg. Group would represent a room in Smart Home project).
+
+**Group URL**
+
+``/groups/{groupId}``
+
+**Group Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``name``
+    - String
+    - 1 < N < 256 characters
+    - Group's name. 
+
+  * - ``description``
+    - String
+    - N/A
+    - Description of Group.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``modifiedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``custom``
+    - Object
+    - N/A
+    - A custom structure you can store your own custom fields in.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to a :ref:`Tenant <ref-tenant>` owning this Group.
+
+  * - ``application``
+    - Link
+    - N/A
+    - A link to a :ref:`Application <ref-application>` this Group exists within.
+
+  * - ``cluster``
+    - Link
+    - N/A
+    - A link to a :ref:`Cluster <ref-cluster>` this Group exists within.
+
+  * - ``devices``
+    - Link
+    - N/A
+    - A link to a Collection of the :ref:`Devices <ref-devices>` which belongs to this Group.
+
+**Group Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/groups/gRoUp31xDeX",
+    "name": "Living room",
+    "description": "Living room in New York City apartment "
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "custom": {
+
+    },
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    },
+    "application": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/applications/AppL1CaT10n1D"
+    },
+    "cluster": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/clusters/c7UZt3Rs1DeX"
+    },
+    "devices": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/groups/gRoUp31xDeX/devices"
+    }
+  }
+
+Group Operations
+-----------------
+
+Create A Group
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /clusters/{clusterId}/groups``
+    - Optional: ``name``, ``description``, ``custom``.
+    - Creates new Group.
+
+Retrieve A Group
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /groups/{groupId}``
+    - ``expand``
+    - Retrieves the Group with the specified ID. Expandable links: ``tenant``, ``application``, ``cluster``, ``devices``.
+
+Update A Group
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /groups/{groupId}``
+    -  ``name``, ``description``, ``custom``
+    - Updates the Group with the specified ID.
+
+Delete A Group
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /groups/{groupId}``
+    - N/A
+    - Deletes the Group with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/groups/gRoUp31xDeX" \
   -H 'Accept: application/json'
 
