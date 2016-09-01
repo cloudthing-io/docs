@@ -7,6 +7,10 @@
 HTTP REST API Reference
 ******************
 
+.. contents::
+    :local:
+    :depth: 2
+    
 REST API Core Concepts
 ==========================
 
@@ -362,7 +366,7 @@ Tenant is an organization on behalf of which user or API key requests data. When
     - RFC3339 Datetime
     - Indicates when this resource’s attributes were last modified.
 
-  * - ``customData``
+  * - ``custom``
     - Object
     - N/A
     - A custom structure you can store your own custom fields in.
@@ -432,6 +436,9 @@ Tenant is an organization on behalf of which user or API key requests data. When
 	  		"used": 0
 	  	}
 	  },
+    "custom": {
+
+    }
 	  "directories": {
 	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/directories"
 	  },
@@ -450,9 +457,9 @@ Tenant is an organization on behalf of which user or API key requests data. When
 	  "users": {
 	    "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/users"
 	  },
-	  "custom": {
-
-	  }
+    "statistics": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT/statistics"
+    }
 	}
 
 Tenant Operations
@@ -2203,6 +2210,10 @@ It is possible to use associated endpoint for retrieving additional data.
     - :ref:`Pagination <about-pagination>`, :ref:`Sorting <about-sorting>`
     - Retrieves a associated resource of the specified type. Possible resource types are: ``data``, ``events`` and ``commands``.
 
+  * - ``POST /devices/{deviceId}/ownership``
+    - n/a
+    - Binds this device to current user (end-user only). ``token`` must be provided in  request body.
+
 Example Queries
 """""""""""""""
 
@@ -2215,6 +2226,17 @@ Example Queries
   -H 'Accept: application/json'
 
 This query would retrieve a collection containing lat measurments of ``temp`` resource by Device.
+
+**Claiming device ownership**
+
+.. code-block:: bash
+
+  curl -H "Authorization: Bearer {jwtToken}" -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' -X POST -d '{"token":"t0k3N0fD3v1C3"}' \
+  "https://vanilla-ice.cloudthing.io/api/v1/devices/Som31D0fd3V1c3/ownership" \
+  
+
+This request would create bing between user and device.
 
 Cluster
 ============
