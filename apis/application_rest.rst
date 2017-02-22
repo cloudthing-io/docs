@@ -3127,6 +3127,179 @@ Example Query
   -H 'Accept: application/json'
 
 
+Firmware
+============
+
+.. contents::
+    :local:
+    :depth: 2
+
+**Description**
+
+Firmware represents binary firmware file for devices
+
+**Firmware URL**
+
+``/firmwares/{firmwareId}``
+
+**Firmware Attributes**
+
+.. list-table::
+  :widths: 15 10 20 60
+  :header-rows: 1
+
+  * - Attribute
+    - Type
+    - Valid Value(s)
+    - Description
+
+  * - ``href``
+    - Link
+    - N/A
+    - The resource's fully qualified location URL.
+
+  * - ``createdAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource was created.
+
+  * - ``updatedAt``
+    - String
+    - RFC3339 Datetime
+    - Indicates when this resource’s attributes were last modified.
+
+  * - ``size``
+    - Number
+    - >0
+    - Size of firmware image.
+
+  * - ``md5``
+    - String
+    - N/A
+    - A md5 sum of firmware image.
+
+  * - ``module``
+    - String
+    - N/A
+    - Name of the module firmware image is valid for.
+
+  * - ``version``
+    - String
+    - N/A
+    - Version of firmware image.
+
+  * - ``product``
+    - Link
+    - N/A
+    - A link to a :ref:`Product <ref-product>` this Firmware is associated with.
+
+  * - ``tenant``
+    - Link
+    - N/A
+    - A link to a :ref:`Tenant <ref-tenant>` owning this Firmware.
+
+
+**Firmware Example**
+
+.. code-block:: json
+
+  {
+    "href": "https://vanilla-ice.cloudthing.io/api/v1/firmwares/3xP0rT1D1234",
+    "createdAt": "2016-05-15T11:18:33Z",
+    "updatedAt": "2016-05-15T11:18:33Z",
+    "product": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/products/Som31D0fpR0do0cT"
+    },
+    "size": 1445864,
+    "md5": "4de8a06df40a257e31263c11be12d77a",
+    "module": "rootfs",
+    "version": "v1.3.7",
+    "tenant": {
+      "href": "https://vanilla-ice.cloudthing.io/api/v1/tenants/Som31D0fT3NAnT"
+    }
+  }
+
+Firmware Operations
+-----------------
+
+Create A Firmware
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /products/{productId}/firmwares``
+    - Required: ``module``, ``version``.
+    - Creates new Firmware.
+
+  * - ``POST /firmwares/{firmwareId}/blob``
+    - Content-Type: ``multipart/form-data``, Required: ``file``.
+    - Uploads new Firmware image.
+
+Retrieve A Firmware
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``GET /firmwares/{firmwareId}``
+    - ``expand``
+    - Retrieves the Firmware with the specified ID. Expandable links: ``product``, ``tenant``.
+
+  * - ``GET /firmwares/{firmwareId}/blob``
+    - N/A
+    - Downloads Firmware image.
+
+Update A Firmware
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Attributes
+    - Description
+
+  * - ``POST /firmwares/{firmwareId}``
+    - ``module``, ``version``
+    - Updates the Firmware with the specified ID.
+
+Delete A Firmware
+^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+  :widths: 40 20 40
+  :header-rows: 1
+
+  * - Operation
+    - Optional Query Parameters
+    - Description
+
+  * - ``DELETE /firmwares/{firmwareId}``
+    - N/A
+    - Deletes the Firmware with the specified ID.
+
+Example Query
+"""""""""""""
+
+.. code-block:: bash
+
+  curl -u "user@example.com:password" \
+  "https://vanilla-ice.cloudthing.io/api/v1/exports/3xP0rT1D1234" \
+  -H 'Accept: application/json'
+
+
 ******************
 MQTT Pub/Sub API Reference
 ******************
