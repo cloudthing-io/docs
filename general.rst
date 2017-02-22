@@ -12,7 +12,7 @@ CloudThing features set of APIs for connecting and managing devices, as well as 
 
 The CT cloud platform is multi-tenant application with strong separation between tenants' data. Every new tenant has his own virtual host created accessible by {shortName}.cloudthing.io. Short names are automatically generated bundles of two words, if you want custom one get in touch hello@cloudthing.io.
 
-Example: if generated name was *vanilla-ice* then tenant's vhost would be exposed via *vanilla-ice.cloudthing.io* and services would ve accessible via:
+Example: if generated name was *vanilla-ice* then tenant's vhost would be exposed via *vanilla-ice.cloudthing.io* and services would be accessible via:
 
 - **Control Center:** *https://vanilla-ice.cloudthing.io*,
 - **HTTP API:** *https://vanilla-ice.cloudthing.io/api/v1*,
