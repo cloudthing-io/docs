@@ -195,6 +195,7 @@ Endpoints are created by appending channel name to base path:
 - **Data** (POST): {scheme}://{short-name}.cloudthing.io:{port}/v1/{deviceId}/data
 - **Events** (POST): {scheme}://{short-name}.cloudthing.io:{port}/v1/{deviceId}/events/{eventId}
 - **Commands** (GET): {scheme}://{short-name}.cloudthing.io:{port}/v1/{deviceId}/commands
+- **Firmware** (GET): {scheme}://{short-name}.cloudthing.io:{port}/v1/deviceId}/fw/dl/{firmwareId}
 
 **Commands** supports streaming (subscribtion) and long connections (similar to MQTT's subscribe). Streaming must be enabled by adding *?stream={keepAliveMilliseconds}* as query parameter, where *keepAliveMilliseconds* is a period of time after which cloud will send blank message to keep connection alive. Chunked streaming is implemented with respect to Chunked responses specification, command id (key) is send as parameter of every chunk.
 
@@ -210,6 +211,7 @@ Example subscribtion for commands::
 	curl -H "Content-Type: application/json" \
 	-u "SoMEc0MpL1Cat3D1D:3xAmpLeT0K3n" \
 	-X GET https://short-name.cloudthing.io:444/v1/SoMEc0MpL1Cat3D1D/commands?stream=10000
+
 
 
 CoAP API
