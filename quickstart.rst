@@ -34,7 +34,7 @@ Once you've logged in into the web application, navigate to *Things > Product* a
 
 .. image:: _static/images/add-command.jpg
 
-Go to *DATA* tab and add a new entry, set values in columns 'Data ID', 'Name' and 'Description' to "temp", "Temperature" and "Temperature reported by controller" respectively. Then go to *COMMANDS* and add new entry with "turn", "Turn" and "Turns heating on or off" in 'Command ID', 'Name' and 'Description' columns. That way you declare what information is sent by devices and what messages they receive. This step is not necessary - the platform will register new data at arrival, however setting these resources beforehand makes it easier to configure the system.
+Go to *DATA* tab and add a new entry, set values in columns 'Data ID', 'Name' and 'Description' to "temp", "Temperature" and "Temperature reported by controller" respectively. Then go to *COMMANDS* and add new entry with "toggle", "Toggle" and "Toggle heating on or off" in 'Command ID', 'Name' and 'Description' columns. That way you declare what information is sent by devices and what messages they receive. This step is not necessary - the platform will register new data at arrival, however setting these resources beforehand makes it easier to configure the system.
 
 Register & connect device
 -------------------
